@@ -1,0 +1,83 @@
+/* configuracao de fonte */
+@font-face {
+  font-family: "Poppins Regular";
+  src: url(../public/font/Poppins-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Poppins Bold";
+  src: url(../public/font/Poppins-Bold.ttf);
+}
+
+/* propriedade global */
+* {
+  font-family: "Poppins Regular";
+  box-sizing: border-box;
+}
+
+/* pagina html */
+html {
+  background-color: #191F49;
+  color: #F9F8FF;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  width: max(100vw, 100%)
+}
+
+/* corpo */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* background */
+#container {
+  height: 41.7rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* componente de perguntas */
+.questions {
+  height: 50%;
+  display: flex;
+  align-items: center;
+}
+
+/* componente de respostas */
+.answers {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* caixa de respostas */
+.answer-box {
+  height: 25%;
+  width: 100%;
+  padding: .5rem;
+  border-radius: .5rem;
+  background-color: #7F87F1;
+}
+
+/* texto das respostas */
+.answer {
+  font-size: 1.2rem;
+}
+
+/* cor para respostas certas e erradas */
+.correct-answer {
+  background-color: #00C892;
+}
+
+.wrong-answer {
+  background-color: #B04C6C;
+}
+
