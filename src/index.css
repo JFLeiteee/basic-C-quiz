@@ -109,10 +109,27 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  place-items: center;
+  justify-content: space-evenly;
 }
 
 .failed h1 {
   margin: 0;
+}
+
+.try-again-button {
+  width: 70%;
+  height: 5rem;
+  border-radius: .5rem;
+  font-size: 1.3rem;
+  padding: .5rem;
+  font-family: 'Poppins Bold';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #7F87F1;
+}
+
+.final-message {
+  text-align: center;
 }
 

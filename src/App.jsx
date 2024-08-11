@@ -8,15 +8,16 @@ import Failed from './components/Failed';
 function App() {
 
   const [questions, setQuestions] = useState(data); //define as perguntas em um estado
-  const [randomNumber, setRandomNumber] = useState(0); //estado para o index da pergunta aleatoria
+  const [randomNumber, setRandomNumber] = useState(); //estado para o index da pergunta aleatoria
   const [quizStarted, setQuizStarted] = useState()
   const [score, setScore] = useState(0)
   const [fail, setFail] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState("") //estado da resposta selecionada
   const [isRight, setIsRight] = useState(false) //estado para saber se a resposta esta certa ou errada
-  const [preventRepeat, setPreventRepeat] = useState([])
   const [failed, setFailed] = useState(false)
-  
+
+  console.log(randomNumber)
+
   // inicio do quiz
   function startQuiz() {
     setQuizStarted(true)
@@ -25,14 +26,16 @@ function App() {
 
   // função para executar a proxima questão
   function nextQuestion() {
-    setRandomNumber(Math.floor(Math.random() * (questions.length - 1)))
+    setRandomNumber(Math.floor(Math.random() * (questions.length)) + 1)
     handleRepeat();
   }
 
   // conta de erros
   function countFail() {
     setFail(prevFail => prevFail + 1)
-    nextQuestion()
+    setTimeout(() => {
+      nextQuestion();
+    }, 1000)
     if (fail >= 2){
       setFailed(true)
       console.log(failed)
@@ -40,9 +43,8 @@ function App() {
   }
 
   // contador de pontuação
-  function handleScore(isRight) {
+  function handleScore() {
     if(isRight == true) {
-      alert("correct")
       setScore(prevScore => prevScore + 10)
     } else {
       setScore(prevScore => prevScore + 0)
@@ -50,14 +52,9 @@ function App() {
   }
 
   function handleRepeat() {
-    // console.log("numero: " + randomNumber)
-    if(preventRepeat.includes(randomNumber)){
-      nextQuestion()
-    } else {
-      setPreventRepeat(prevRepeat => [...prevRepeat, randomNumber])
-    }
-
-    // console.log(preventRepeat)
+    const updatedQuestions = questions.filter((_, index) => index !== randomNumber - 1)
+    setQuestions(updatedQuestions)
+    console.log(questions)
   }
 
   // funcao para verificar se a questao esta certa ou errada
@@ -65,10 +62,12 @@ function App() {
     if(selectedAnswer == ""){
       return
     } else {
-      if(questions[randomNumber - 1]?.correctAnswer == selectedAnswer ){
+      if(questions[randomNumber - 1].correctAnswer == selectedAnswer ){
         setIsRight(true)
-        handleScore(true)
-        nextQuestion()
+        handleScore()
+        setTimeout(() => {
+          nextQuestion();
+        }, 1000)
       } else {
         countFail()
       }
@@ -76,6 +75,7 @@ function App() {
   }
 
   function tryAgain() {
+    setQuestions(data)
     setFail(0)
     setScore(0)
     setFailed(false)
@@ -97,12 +97,12 @@ function App() {
           <>
             <Questions /* componente de questoes */
               question = {questions} /* passando as questoes para o componente */
-              questionId = {randomNumber}/* passando o index da questao escolhida */
+              questionId = {randomNumber - 1}/* passando o index da questao escolhida */
             />
       
             <Answers /* componente de respostas */
               question = {questions}/* passando as questoes para o componente */
-              questionId = {randomNumber}/* passando o index da questao escolhida */
+              questionId = {randomNumber - 1}/* passando o index da questao escolhida */
               selectedAnswer = {selectedAnswer}
               setSelectedAnswer = {setSelectedAnswer}
               isRight = {isRight}

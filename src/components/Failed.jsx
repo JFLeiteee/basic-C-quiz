@@ -12,9 +12,11 @@ export default function Failed({tryAgain, score}) {
 
     return (
         <div className="failed">
-            <h1>{finalMessage}</h1>
-            <h1>Sua pontuação: {score}</h1>
-            <h1 onClick={tryAgain}>tente novamente</h1>
+            <h1 className="final-message">{finalMessage}</h1>
+            <h2 className="score">Sua pontuação: {score}</h2>
+            <div onClick={tryAgain} className="try-again-button">
+                TENTE NOVAMENTE
+            </div>
         </div>
     )
 }

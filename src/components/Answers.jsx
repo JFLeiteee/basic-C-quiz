@@ -11,7 +11,7 @@ export default function Answers({question, questionId, selectedAnswer, setSelect
     return (
         <div className="answers">
             {
-                question[questionId - 1]?.answers.map((answer) => ( //renderiza as perguntas na tela
+                question[questionId]?.answers.map((answer) => ( //renderiza as perguntas na tela
                     <div 
                         className= {
                             `answer-box 
