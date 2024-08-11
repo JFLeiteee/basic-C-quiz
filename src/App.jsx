@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import Answers from './components/Answers'
 import Questions from './components/Questions'
 import Start from './components/Start';
-
 import data from './data';
+import Failed from './components/Failed';
 
 function App() {
 
@@ -14,42 +14,71 @@ function App() {
   const [fail, setFail] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState("") //estado da resposta selecionada
   const [isRight, setIsRight] = useState(false) //estado para saber se a resposta esta certa ou errada
-
-  // funcao do numero aleatorio
-  useEffect(() => {
-    setRandomNumber(Math.floor(Math.random() * questions.length))
-  }, [questions, fail, score])
-
+  const [preventRepeat, setPreventRepeat] = useState([])
+  const [failed, setFailed] = useState(false)
+  
+  // inicio do quiz
   function startQuiz() {
     setQuizStarted(true)
+    nextQuestion()
   }
 
+  // função para executar a proxima questão
+  function nextQuestion() {
+    setRandomNumber(Math.floor(Math.random() * (questions.length - 1)))
+    handleRepeat();
+  }
+
+  // conta de erros
   function countFail() {
-    alert("wrong")
     setFail(prevFail => prevFail + 1)
-    if (fail == 2){
-      setQuizStarted(false)
+    nextQuestion()
+    if (fail >= 2){
+      setFailed(true)
+      console.log(failed)
     }
   }
 
+  // contador de pontuação
   function handleScore(isRight) {
     if(isRight == true) {
       alert("correct")
       setScore(prevScore => prevScore + 10)
     } else {
-      setScore(0)
+      setScore(prevScore => prevScore + 0)
     }
-    alert(score)
+  }
+
+  function handleRepeat() {
+    // console.log("numero: " + randomNumber)
+    if(preventRepeat.includes(randomNumber)){
+      nextQuestion()
+    } else {
+      setPreventRepeat(prevRepeat => [...prevRepeat, randomNumber])
+    }
+
+    // console.log(preventRepeat)
   }
 
   // funcao para verificar se a questao esta certa ou errada
   function checkQuestion() {
-    if(questions[randomNumber - 1]?.correctAnswer == selectedAnswer ){
-      setIsRight(true)
-      handleScore(isRight)
+    if(selectedAnswer == ""){
+      return
     } else {
-      countFail()
+      if(questions[randomNumber - 1]?.correctAnswer == selectedAnswer ){
+        setIsRight(true)
+        handleScore(true)
+        nextQuestion()
+      } else {
+        countFail()
+      }
     }
+  }
+
+  function tryAgain() {
+    setFail(0)
+    setScore(0)
+    setFailed(false)
   }
 
   return (
@@ -57,10 +86,14 @@ function App() {
     <div id="container">
       {
         !quizStarted 
-        ? (
-          <Start startQuiz={startQuiz}/>
-        ) 
+        ? <Start startQuiz={startQuiz}/>
         : (
+          failed
+          ? <Failed 
+              tryAgain = {tryAgain}
+              score = {score}
+            />
+          : (
           <>
             <Questions /* componente de questoes */
               question = {questions} /* passando as questoes para o componente */
@@ -80,6 +113,7 @@ function App() {
               handleScore = {handleScore}
             />
           </>
+          )
         )
       }
     </div>

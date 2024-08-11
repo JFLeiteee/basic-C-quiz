@@ -103,3 +103,16 @@ body {
   background-color: #B04C6C;
 }
 
+.failed {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  place-items: center;
+}
+
+.failed h1 {
+  margin: 0;
+}
+

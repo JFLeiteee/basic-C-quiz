@@ -3,7 +3,6 @@ import Start from "./Start"
 
 export default function Answers({question, questionId, selectedAnswer, setSelectedAnswer, checkQuestion, isRight}) {
 
-
     // reenderiza conforme a resposta
     useEffect(() => {
         checkQuestion()
