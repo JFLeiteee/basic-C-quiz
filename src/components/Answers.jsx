@@ -1,20 +1,8 @@
 import { useEffect, useState } from "react"
+import Start from "./Start"
 
-export default function Answers({question, questionId}) {
+export default function Answers({question, questionId, selectedAnswer, setSelectedAnswer, checkQuestion, isRight}) {
 
-    const [selectedAnswer, setSelectedAnswer] = useState("") //estado da resposta selecionada
-    const [isRight, setIsRight] = useState(false) //estado para saber se a resposta esta certa ou errada
-
-    // funcao para verificar se a questao esta certa ou errada
-    function checkQuestion() {
-        if(question[questionId - 1]?.correctAnswer == selectedAnswer ) {
-            console.log("voce acertou")
-            setIsRight(true)
-        } else {
-            console.log("voce errou")
-            setIsRight(false)
-        }
-    }
 
     // reenderiza conforme a resposta
     useEffect(() => {
