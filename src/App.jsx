@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Answers from './components/Answers'
-import Questions from './components/questions'
+import Questions from './components/Questions'
 
 import data from './data';
 
