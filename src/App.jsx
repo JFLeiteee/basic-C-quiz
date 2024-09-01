@@ -16,8 +16,6 @@ function App() {
   const [isRight, setIsRight] = useState(false) //estado para saber se a resposta esta certa ou errada
   const [failed, setFailed] = useState(false)
 
-  console.log(randomNumber)
-
   // inicio do quiz
   function startQuiz() {
     setQuizStarted(true)
@@ -26,7 +24,7 @@ function App() {
 
   // função para executar a proxima questão
   function nextQuestion() {
-    setRandomNumber(Math.floor(Math.random() * (questions.length)) + 1)
+    setRandomNumber(Math.floor(Math.random() * (questions.length)))
     handleRepeat();
   }
 
@@ -52,7 +50,7 @@ function App() {
   }
 
   function handleRepeat() {
-    const updatedQuestions = questions.filter((_, index) => index !== randomNumber - 1)
+    const updatedQuestions = questions.filter((_, index) => index !== randomNumber)
     setQuestions(updatedQuestions)
     console.log(questions)
   }
@@ -62,7 +60,7 @@ function App() {
     if(selectedAnswer == ""){
       return
     } else {
-      if(questions[randomNumber - 1].correctAnswer == selectedAnswer ){
+      if(questions[randomNumber].correctAnswer == selectedAnswer ){
         setIsRight(true)
         handleScore()
         setTimeout(() => {
@@ -81,6 +79,8 @@ function App() {
     setFailed(false)
   }
 
+  console.log(randomNumber)
+
   return (
     // div geral
     <div id="container">
@@ -97,12 +97,12 @@ function App() {
           <>
             <Questions /* componente de questoes */
               question = {questions} /* passando as questoes para o componente */
-              questionId = {randomNumber - 1}/* passando o index da questao escolhida */
+              questionId = {randomNumber}/* passando o index da questao escolhida */
             />
       
             <Answers /* componente de respostas */
               question = {questions}/* passando as questoes para o componente */
-              questionId = {randomNumber - 1}/* passando o index da questao escolhida */
+              questionId = {randomNumber}/* passando o index da questao escolhida */
               selectedAnswer = {selectedAnswer}
               setSelectedAnswer = {setSelectedAnswer}
               isRight = {isRight}
