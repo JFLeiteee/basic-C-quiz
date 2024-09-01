@@ -16,6 +16,7 @@ function App() {
   const [selectedAnswer, setSelectedAnswer] = useState("") //estado da resposta selecionada
   const [isRight, setIsRight] = useState(false) //estado para saber se a resposta esta certa ou errada
   const [failed, setFailed] = useState(false)
+  const [victory, setVictory] = useState(false)
 
   // inicio do quiz
   function startQuiz() {
@@ -23,14 +24,32 @@ function App() {
     nextQuestion()
   }
 
-  useEffect(() => {
-    handleRepeat()
-  }, [randomNumber])
+  // useEffect(() => {
+  //   handleRepeat()
+  // }, [randomNumber])
 
   // função para executar a proxima questão
   function nextQuestion() {
-    setRandomNumber(Math.floor(Math.random() * (questions.length)))
+    let randomIdx
+    if (questions.length > 1) {
+      randomIdx = (Math.floor(Math.random() * (questions.length - 1)))
+      if(randomIdx == -1){
+        setRandomNumber(randomIdx + 1)
+      } else {
+        setRandomNumber(randomIdx)
+      }
+
+      const updatedQuestions = questions.filter((_, index) => index !== randomNumber)
+      setQuestions(updatedQuestions)
+    } else if (questions.length === 1) {
+      setRandomNumber(0)
+    }
+
   }
+
+  console.log("tamanho: " + questions.length);
+  console.log("Random: " + randomNumber);
+  console.log(questions);
 
   // conta de erros
   function countFail() {
@@ -50,12 +69,6 @@ function App() {
     }
   }
 
-  function handleRepeat() {
-    const updatedQuestions = questions.filter((_, index) => index !== randomNumber)
-    setQuestions(updatedQuestions)
-    console.log(questions)
-  }
-
   // funcao para verificar se a questao esta certa ou errada
   function checkQuestion() {
     if(selectedAnswer == ""){
@@ -67,6 +80,11 @@ function App() {
         setTimeout(() => {
           nextQuestion();
         }, 1000)
+        if(questions.length == 1) {
+          setTimeout(() => {
+            setVictory(true);
+          }, 1000)
+        }
       } else if (questions[randomNumber].correctAnswer !== selectedAnswer){
         setIsRight(false)
         countFail()
@@ -84,8 +102,6 @@ function App() {
     setFailed(false)
   }
 
-  console.log(randomNumber)
-
   return (
     // div geral
     <div id="container">
@@ -99,7 +115,7 @@ function App() {
               score = {score}
             />
           : (
-            questions.lenght == 0
+            victory
             ? <FinalScreen 
                 tryAgain = {tryAgain}
                 score = {score}
