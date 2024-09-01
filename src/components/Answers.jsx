@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Start from "./Start"
 
-export default function Answers({question, questionId, selectedAnswer, setSelectedAnswer, checkQuestion, isRight}) {
+export default function Answers({question, questionId, selectedAnswer, setSelectedAnswer, checkQuestion, isRight, fail}) {
 
     // reenderiza conforme a resposta
     useEffect(() => {
@@ -15,12 +15,13 @@ export default function Answers({question, questionId, selectedAnswer, setSelect
                     <div 
                         className= {
                             `answer-box 
-                            ${answer == selectedAnswer && isRight //se a questao selecionada for a certa, ira destaca-la
+                            ${
+                                answer == selectedAnswer && isRight //se a questao selecionada for a certa, ira destaca-la
                                 ? 'correct-answer' 
                                 : ''
                             }
                             ${
-                                answer == selectedAnswer && !isRight //se a questao selecionada for a errada, ira destaca-la
+                                answer == selectedAnswer && !isRight && selectedAnswer != ""//se a questao selecionada for a errada, ira destaca-la
                                 ? 'wrong-answer'
                                 : ''
                             }`

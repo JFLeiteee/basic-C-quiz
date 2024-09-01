@@ -4,6 +4,7 @@ import Questions from './components/Questions'
 import Start from './components/Start';
 import data from './data';
 import Failed from './components/Failed';
+import FinalScreen from './components/FinalScreen';
 
 function App() {
 
@@ -22,18 +23,18 @@ function App() {
     nextQuestion()
   }
 
+  useEffect(() => {
+    handleRepeat()
+  }, [randomNumber])
+
   // função para executar a proxima questão
   function nextQuestion() {
     setRandomNumber(Math.floor(Math.random() * (questions.length)))
-    handleRepeat();
   }
 
   // conta de erros
   function countFail() {
     setFail(prevFail => prevFail + 1)
-    setTimeout(() => {
-      nextQuestion();
-    }, 1000)
     if (fail >= 2){
       setFailed(true)
       console.log(failed)
@@ -60,14 +61,18 @@ function App() {
     if(selectedAnswer == ""){
       return
     } else {
-      if(questions[randomNumber].correctAnswer == selectedAnswer ){
+      if(questions[randomNumber].correctAnswer === selectedAnswer ){
         setIsRight(true)
         handleScore()
         setTimeout(() => {
           nextQuestion();
         }, 1000)
-      } else {
+      } else if (questions[randomNumber].correctAnswer !== selectedAnswer){
+        setIsRight(false)
         countFail()
+        setTimeout(() => {
+          nextQuestion();
+        }, 1000)
       }
     }
   }
@@ -94,25 +99,32 @@ function App() {
               score = {score}
             />
           : (
-          <>
-            <Questions /* componente de questoes */
-              question = {questions} /* passando as questoes para o componente */
-              questionId = {randomNumber}/* passando o index da questao escolhida */
-            />
-      
-            <Answers /* componente de respostas */
-              question = {questions}/* passando as questoes para o componente */
-              questionId = {randomNumber}/* passando o index da questao escolhida */
-              selectedAnswer = {selectedAnswer}
-              setSelectedAnswer = {setSelectedAnswer}
-              isRight = {isRight}
-              setIsRight = {setIsRight}
-              checkQuestion = {checkQuestion}
-              fail = {fail}
-              countFail = {countFail}
-              handleScore = {handleScore}
-            />
-          </>
+            questions.lenght == 0
+            ? <FinalScreen 
+                tryAgain = {tryAgain}
+                score = {score}
+              />
+            : (
+              <>
+                <Questions /* componente de questoes */
+                  question = {questions} /* passando as questoes para o componente */
+                  questionId = {randomNumber}/* passando o index da questao escolhida */
+                />
+          
+                <Answers /* componente de respostas */
+                  question = {questions}/* passando as questoes para o componente */
+                  questionId = {randomNumber}/* passando o index da questao escolhida */
+                  selectedAnswer = {selectedAnswer}
+                  setSelectedAnswer = {setSelectedAnswer}
+                  isRight = {isRight}
+                  setIsRight = {setIsRight}
+                  checkQuestion = {checkQuestion}
+                  fail = {fail}
+                  countFail = {countFail}
+                  handleScore = {handleScore}
+                />
+              </>
+            )
           )
         )
       }
