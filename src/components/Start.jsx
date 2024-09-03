@@ -1,14 +1,25 @@
+import { useContext } from 'react'
 import title from '../assets/title.png'
+import { useNavigate } from 'react-router-dom'
+import { VariableContext } from '../context/variableContext'
 
-export default function Start({startQuiz}) {
+export default function Start() {
+
+    const navigate = useNavigate()
+
+    const { nextQuestion } = useContext(VariableContext)
+
+    function startGame() {
+        nextQuestion()
+        navigate("/play")
+    }
 
     return (
         <div className="start">
-            {/* <h1 className="start-title">Quiz Sobre C</h1> */}
             <img src={title} alt="" />
             <div 
                 className="start-button"
-                onClick={() => startQuiz()}
+                onClick={() => startGame()}
             >
                 COMEÇAR
             </div>

@@ -1,9 +1,13 @@
-export default function FinalScreen({tryAgain, score}){
+import { useNavigate } from "react-router-dom"
+export default function FinalScreen(){
+
+    const navigate = useNavigate();
+
     return(
         <div className="finalPage">
             <h1>Você Ganhou!!</h1>
-            <h2 className="score">Sua pontuação: {score}</h2>
-            <div onClick={tryAgain} className="try-again-button">
+            <h2 className="score">Sua pontuação: </h2>
+            <div onClick={() => navigate('/')} className="try-again-button">
                 JOGAR DE NOVO
             </div>
         </div>

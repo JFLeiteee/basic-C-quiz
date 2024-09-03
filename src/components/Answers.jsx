@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react"
-import Start from "./Start"
+import { useContext, useEffect, useState } from "react"
+import { VariableContext } from "../context/variableContext"
 
-export default function Answers({question, questionId, selectedAnswer, setSelectedAnswer, checkQuestion, isRight, fail}) {
+export default function Answers() {
+
+    const {questions, questionId, selectedAnswer, setSelectedAnswer, isRight, checkQuestion} = useContext(VariableContext);
 
     // reenderiza conforme a resposta
     useEffect(() => {
@@ -11,7 +13,7 @@ export default function Answers({question, questionId, selectedAnswer, setSelect
     return (
         <div className="answers">
             {
-                question[questionId]?.answers.map((answer) => ( //renderiza as perguntas na tela
+                questions[questionId]?.answers.map((answer) => ( //renderiza as perguntas na tela
                     <div 
                         className= {
                             `answer-box 
