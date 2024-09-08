@@ -28,21 +28,24 @@ html {
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 
 /* background */
 #container {
-  height: 41.7rem;
+  height: 100vh;
   padding: 1rem;
+  align-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* background-color: red; */
 }
 
 .start {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;

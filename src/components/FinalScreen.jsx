@@ -4,7 +4,7 @@ export default function FinalScreen(){
     const navigate = useNavigate();
 
     return(
-        <div className="finalPage">
+        <div id="container">
             <h1>Você Ganhou!!</h1>
             <h2 className="score">Sua pontuação: </h2>
             <div onClick={() => navigate('/')} className="try-again-button">

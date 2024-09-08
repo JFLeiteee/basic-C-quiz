@@ -5,9 +5,7 @@ function App() {
   return (
     // div geral
     <div id="container">
-      {
-        <Start />
-      }
+      <Start />
     </div>
   )
 }

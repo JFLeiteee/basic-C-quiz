@@ -25,9 +25,9 @@ export default function Game() {
     victory()
 
     return(
-        <>
+        <div id="container">
             <Questions /* componente de questoes *//>
             <Answers /* componente de respostas *//>
-        </>
+        </div>
     )
 }
